@@ -19,6 +19,8 @@
 			<th>LastName</th>
 			<th>Email</th>
 			<th>Gender</th>
+			<th>Birth</th>
+			<th>Salary</th>
 			<th>Department</th>
 			<th>Edit</th>
 			<th>Delete</th>
@@ -29,6 +31,8 @@
 				<td>${emp.lastName}</td>
 				<td>${emp.email}</td>
 				<td>${emp.gender==0?"女":"男"}</td>
+				<td>${emp.birth}</td>
+				<td>${emp.salary}</td>
 				<td>${emp.department.departmentName}</td>
 				<td>
 					<a href="${ctp}/emp/${emp.id}">Edit</a>

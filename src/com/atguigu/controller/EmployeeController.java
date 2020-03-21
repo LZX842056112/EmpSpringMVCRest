@@ -1,15 +1,22 @@
 package com.atguigu.controller;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import com.atguigu.bean.Department;
 import com.atguigu.bean.Employee;
 import com.atguigu.dao.DepartmentDao;
@@ -51,9 +58,26 @@ public class EmployeeController {
 	 * @return
 	 */
 	@RequestMapping(value="/emp",method=RequestMethod.POST)
-	public String addEmp(Employee employee){
-		System.out.println("要添加的员工" + employee);
-		employeeDao.save(employee);
+	public String addEmp(@Valid Employee employee,BindingResult result,Model model){//@Valid告诉SpringMVC，这个javaBean需要校验
+		System.out.println("要添加的员工" + employee);//BindingResult就是封装前一个bean的校验结果
+		//获取是否有校验错误
+		boolean hasErrors = result.hasErrors();
+		Map<String,Object> errorsMap = new HashMap<String,Object>();
+		if (hasErrors) {
+			List<FieldError> errors = result.getFieldErrors();
+			for (FieldError fieldError : errors) {
+				System.out.println("错误消息提示：" + fieldError.getDefaultMessage());
+				System.out.println("错误的字段是？" + fieldError.getField());
+				System.out.println(fieldError);
+				System.out.println("------------------------");
+				errorsMap.put(fieldError.getField(), fieldError.getDefaultMessage());
+			}
+			model.addAttribute("errorInfo", errorsMap);
+			System.out.println("有校验错误");
+			return "add";
+		}else {
+			employeeDao.save(employee);
+		}
 		//重定向查询所有员工请求
 		return "redirect:/emps";
 	}
@@ -80,9 +104,16 @@ public class EmployeeController {
 	 * @return
 	 */
 	@RequestMapping(value="/emp/{id}",method=RequestMethod.PUT)
-	public String updaeEmp(@ModelAttribute("employee")Employee employee){
+	public String updaeEmp(@Valid @ModelAttribute("employee")Employee employee,BindingResult result){
 		System.out.println("要修改的员工" + employee);
-		employeeDao.save(employee);
+		//获取是否有校验错误
+		boolean hasErrors = result.hasErrors();
+		if (hasErrors) {
+			System.out.println("有校验错误");
+			return "edit";
+		}else {
+			employeeDao.save(employee);
+		}
 		return "redirect:/emps";
 	}
 	
