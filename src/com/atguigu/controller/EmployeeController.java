@@ -100,6 +100,11 @@ public class EmployeeController {
 		System.out.println("haha");
 	}
 	
+	/**
+	 * 删除
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping(value="/emp/{id}",method=RequestMethod.DELETE)
 	public String deleteEmp(@PathVariable("id")Integer id) {
 		employeeDao.delete(id);
