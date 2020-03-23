@@ -15,7 +15,7 @@ public class Employee {
 
 	private Integer id;
 	
-	@NotEmpty
+	@NotEmpty(message="不能为空")
 	@Length(min=6,max=18)
 	private String lastName;
 	

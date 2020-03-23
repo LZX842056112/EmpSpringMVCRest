@@ -47,8 +47,6 @@ public class EmployeeController {
 	 */
 	@RequestMapping("/toaddpage")
 	public String toAddPage(Model model) {
-		Collection<Department> departments = departmentDao.getDepartments();
-		model.addAttribute("depts",departments);
 		model.addAttribute("employee", new Employee());
 		return "add";
 	}
@@ -104,7 +102,7 @@ public class EmployeeController {
 	 * @return
 	 */
 	@RequestMapping(value="/emp/{id}",method=RequestMethod.PUT)
-	public String updaeEmp(@Valid @ModelAttribute("employee")Employee employee,BindingResult result){
+	public String updaeEmp(@ModelAttribute("employee")Employee employee,BindingResult result){
 		System.out.println("要修改的员工" + employee);
 		//获取是否有校验错误
 		boolean hasErrors = result.hasErrors();
@@ -129,6 +127,10 @@ public class EmployeeController {
 			model.addAttribute("employee",employee);
 		}
 		System.out.println("haha");
+		//查出所有部门
+		Collection<Department> departments = departmentDao.getDepartments();
+		//放在请求域中
+		model.addAttribute("depts",departments);
 	}
 	
 	/**

@@ -16,12 +16,12 @@
 		modelAttribute="employee" method="POST">
 		<input type="hidden" name="_method" value="put"/>
 		<input type="hidden" name="id" value="${employee.id}"/>
-		Email:<form:input path="email"/><form:errors path="email"/><br/>
+		Email:<form:input path="email"/><br/>
 		Gender:&nbsp;&nbsp;&nbsp;
 			男:<form:radiobutton path="gender" value="1"/>&nbsp;&nbsp;&nbsp;
 			女:<form:radiobutton path="gender" value="0"/><br/>
-		Birth:<form:input path="birth"/><form:errors path="birth"/><br/>
-		Salary:<form:input path="salary"/><form:errors path="salary"/><br/>
+		Birth:<form:input path="birth"/><br/>
+		Salary:<form:input path="salary"/><br/>
 		Department:
 			<form:select path="department.id" 
 			items="${depts}"
